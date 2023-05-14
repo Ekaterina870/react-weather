@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Weather.css";
+import FormattedDate from "./FormattedDate";
 import axios from "axios";
 export default function Weather(props) {
   const [weatherData, setWeatherData] = useState({ ready: false });
@@ -7,11 +8,14 @@ export default function Weather(props) {
     setWeatherData({
       ready: true,
       temperature: response.data.temperature.current,
+      date: new Date(response.data.time * 1000),
       wind: response.data.wind.speed,
       city: response.data.city,
       description: response.data.condition.description,
       feelsLike: response.data.temperature.feels_like,
       humidity: response.data.temperature.humidity,
+      iconUrl:
+        "https://easydrawingguides.com/wp-content/uploads/2017/06/how-to-draw-a-sun-featured-image-1200.png",
     });
   }
   if (weatherData.ready) {
@@ -35,15 +39,17 @@ export default function Weather(props) {
             </span>
             <span className="units">°C</span>
             <img
-              src="https://easydrawingguides.com/wp-content/uploads/2017/06/how-to-draw-a-sun-featured-image-1200.png"
+              src={weatherData.iconUrl}
               width="20%"
-              alt="Sunny weather"
+              alt={weatherData.description}
             ></img>
           </div>
           <div className="col-4">
             <ul>
               <li>Last updated:</li>
-              <li>Day & Time</li>
+              <li>
+                <FormattedDate date={weatherData.date} />
+              </li>
               <li className="text-capitalize">{weatherData.description}</li>
             </ul>
           </div>
@@ -61,7 +67,7 @@ export default function Weather(props) {
   } else {
     const apiKey = "aa4349d1502cfb42ae79dd3817ceotf1";
 
-    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${props.defaultCity}&key=${apiKey}&units=metric`;
+    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=London&key=${apiKey}`;
     axios.get(apiUrl).then(handleResponse);
     return "Loading...";
   }
