@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "./Weather.css";
-import FormattedDate from "./FormattedDate";
+
+import WeatherInfo from "./WeatherInfo";
 import axios from "axios";
 export default function Weather(props) {
   const [weatherData, setWeatherData] = useState({ ready: false });
+  const [city, setCity] = useState(props.defaultCity);
   function handleResponse(response) {
     setWeatherData({
       ready: true,
@@ -18,57 +20,41 @@ export default function Weather(props) {
         "https://easydrawingguides.com/wp-content/uploads/2017/06/how-to-draw-a-sun-featured-image-1200.png",
     });
   }
+  function search() {
+    const apiKey = "aa4349d1502cfb42ae79dd3817ceotf1";
+
+    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}`;
+    axios.get(apiUrl).then(handleResponse);
+  }
+  function handleSubmit(event) {
+    event.preventDefault();
+    search();
+  }
+  function handleCityChange(event) {
+    setCity(event.target.value);
+  }
   if (weatherData.ready) {
     return (
       <div className="Weather">
         <h1>Find a forecast</h1>
         <br />
-        <form>
-          <input type="search" placeholder="Enter a City Name" autoFocus="on" />
+        <form onSubmit={handleSubmit}>
+          <input
+            type="search"
+            placeholder="Enter a City Name"
+            autoFocus="on"
+            onChange={handleCityChange}
+          />
 
           <input type="submit" value="Search" />
           <input type="submit" value="Current" />
         </form>
+        <WeatherInfo data={weatherData} />
         <br />
-        <div className="row">
-          <div className="col-4">
-            {" "}
-            <h2>{weatherData.city}</h2>
-            <span className="temperature">
-              {Math.round(weatherData.temperature)}
-            </span>
-            <span className="units">°C</span>
-            <img
-              src={weatherData.iconUrl}
-              width="20%"
-              alt={weatherData.description}
-            ></img>
-          </div>
-          <div className="col-4">
-            <ul>
-              <li>Last updated:</li>
-              <li>
-                <FormattedDate date={weatherData.date} />
-              </li>
-              <li className="text-capitalize">{weatherData.description}</li>
-            </ul>
-          </div>
-
-          <div className="col-4">
-            <ul>
-              <li>Feels like: {Math.round(weatherData.feelsLike)}°C</li>
-              <li>Humidity: {weatherData.humidity}%</li>
-              <li>Wind: {Math.round(weatherData.wind)}km/h</li>
-            </ul>
-          </div>
-        </div>
       </div>
     );
   } else {
-    const apiKey = "aa4349d1502cfb42ae79dd3817ceotf1";
-
-    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=London&key=${apiKey}`;
-    axios.get(apiUrl).then(handleResponse);
+    search();
     return "Loading...";
   }
 }
