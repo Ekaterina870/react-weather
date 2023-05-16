@@ -14,7 +14,7 @@ export default function WeatherInfo(props) {
           <span className="units">°C</span>
           <img
             src={props.data.iconUrl}
-            width="20%"
+            width="100%"
             alt={props.data.description}
           ></img>
         </div>

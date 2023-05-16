@@ -5,25 +5,24 @@ import WeatherInfo from "./WeatherInfo";
 import axios from "axios";
 export default function Weather(props) {
   const [weatherData, setWeatherData] = useState({ ready: false });
-  const [city, setCity] = useState(props.defaultCity);
+  const [city, setCity] = useState(props.dafaultCity);
   function handleResponse(response) {
     setWeatherData({
       ready: true,
-      temperature: response.data.temperature.current,
-      date: new Date(response.data.time * 1000),
+      temperature: response.data.main.temp,
+      date: new Date(response.data.dt * 1000),
       wind: response.data.wind.speed,
-      city: response.data.city,
-      description: response.data.condition.description,
-      feelsLike: response.data.temperature.feels_like,
-      humidity: response.data.temperature.humidity,
-      iconUrl:
-        "https://easydrawingguides.com/wp-content/uploads/2017/06/how-to-draw-a-sun-featured-image-1200.png",
+      city: response.data.name,
+      description: response.data.weather.description,
+      feelsLike: response.data.main.feels_like,
+      humidity: response.data.main.humidity,
+      iconUrl: `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
     });
   }
   function search() {
-    const apiKey = "aa4349d1502cfb42ae79dd3817ceotf1";
+    const apiKey = "667d9f573c8af4c33457be5d561a9148";
 
-    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}`;
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
     axios.get(apiUrl).then(handleResponse);
   }
   function handleSubmit(event) {
