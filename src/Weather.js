@@ -12,8 +12,8 @@ export default function Weather(props) {
       temperature: response.data.main.temp,
       date: new Date(response.data.dt * 1000),
       wind: response.data.wind.speed,
+      description: response.data.weather.main,
       city: response.data.name,
-      description: response.data.weather.description,
       feelsLike: response.data.main.feels_like,
       humidity: response.data.main.humidity,
       icon: response.data.weather[0].icon,
@@ -32,6 +32,7 @@ export default function Weather(props) {
   function handleCityChange(event) {
     setCity(event.target.value);
   }
+
   if (weatherData.ready) {
     return (
       <div className="Weather">
@@ -46,7 +47,6 @@ export default function Weather(props) {
           />
 
           <input type="submit" value="Search" />
-          <input type="submit" value="Current" />
         </form>
         <WeatherInfo data={weatherData} />
         <br />

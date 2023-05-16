@@ -17,7 +17,9 @@ export default function WeatherInfo(props) {
         </div>
         <div className="col-4">
           <ul>
-            <li>Last updated:</li>
+            <li>
+              <strong>Last updated:</strong>
+            </li>
             <li>
               <FormattedDate date={props.data.date} />
             </li>
@@ -27,9 +29,15 @@ export default function WeatherInfo(props) {
 
         <div className="col-4">
           <ul>
-            <li>Feels like: {Math.round(props.data.feelsLike)}°C</li>
-            <li>Humidity: {props.data.humidity}%</li>
-            <li>Wind: {Math.round(props.data.wind)}km/h</li>
+            <li>
+              <strong>Feels like:</strong> {Math.round(props.data.feelsLike)}°C
+            </li>
+            <li>
+              <strong>Humidity:</strong> {props.data.humidity}%
+            </li>
+            <li>
+              <strong>Wind:</strong> {Math.round(props.data.wind)}km/h
+            </li>
           </ul>
         </div>
       </div>

@@ -33,17 +33,20 @@
   font-size: 16px;
   line-height: 20px;
 }
+.Weather form {
+  margin-bottom: 20px;
+}
 .Weather .temperature {
   font-weight: bold;
-  font-size: 24px;
+  font-size: 50px;
 }
 .Weather img {
   height: 100px;
   width: 100px;
-  margin: 10px;
+  margin: 20px;
 }
 .Weather .units {
   font-size: 15px;
   position: relative;
-  top: -6px;
+  top: -20px;
 }
